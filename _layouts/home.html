@@ -9,6 +9,15 @@ layout: default
 
   {{ content }}
 
+  <h2>Category:</h2>
+  <ul>
+    {% for post in site.posts %}
+      <li>
+        <a href="{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  
   {%- if site.posts.size > 0 -%}
     <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
     <ul class="post-list">
@@ -27,7 +36,7 @@ layout: default
       </li>
       {%- endfor -%}
     </ul>
-    
+
   {%- endif -%}
 
 </div>
