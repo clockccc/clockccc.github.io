@@ -5,6 +5,8 @@ layout: home-page
 {% assign tag_words = site_tags | split:',' | sort %}
 
 <ol class="post-card-box clearfix">
+
+    <h2>{{site.time}}</h2>
     <h2>书签:</h2>
     <ul>
     {% for item in (0..site.tags.size) %}{% unless forloop.last %}
