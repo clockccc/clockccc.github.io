@@ -1,35 +1,47 @@
-
-
-title: -Clockc- Blogs
+title: My blog -clockc-
 email: glockgg@126.com
-description: >- # this means to ignore newlines until "baseurl:"
-  Last-Edit:2019/11/2
+description: > # this means to ignore newlines until "baseurl:"
+  Last-edit:2019/11/4
+permalink: ':title/'
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: clockccc
-github_username:  clockccc
+
+# Author settings
+author: clockc # add your name
+author-pic: my-face.jpg
+about-author: My name is Glock. I’m a student.
+
+# Contact links
+email: glockgg@126.com
+phone: # Add your Phone number
+website: # Add your website, do not add http://
+linkedin: # Add your Linkedin handle
+github: clockccc # Add your Github handle
+twitter:  # Add your Twitter handle
+facebook: # Add your Facebook handle
+instagram: # Add your Instagram handle
+pinterest: # Add your Pinterest handle
+
+# Newsletter
+mailchimp: # Add your MailChimp form identifier.
+
+# Disqus
+discus_identifier:  # Add your discus identifier
+
+# Tracker
+analytics: # Google Analytics
+
+# Paginate
+paginate: 4
+paginate_path: /page:num/
 
 # Build settings
-theme: minima
-plugins:
-  - jekyll-feed
+markdown: kramdown
 
-# Exclude from processing.
-# The following items will not be processed, by default.
-# Any item listed under the `exclude:` key here will be automatically added to
-# the internal "default list".
-#
-# Excluded items can be processed by explicitly listing the directories or
-# their entries' file path in the `include:` list.
-#
-# exclude:
-#   - .sass-cache/
-#   - .jekyll-cache/
-#   - gemfiles/
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules/
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+plugins:
+  - jekyll-paginate
+  - jekyll-feed
+  - jekyll-sitemap
+
+include: [_pages]
+exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock", "package-lock.json", "assets/css/sass/"]
