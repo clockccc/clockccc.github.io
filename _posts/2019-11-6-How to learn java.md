@@ -31,7 +31,7 @@ published: true
 
 
 
- 2.Javaweb框架学习(Spring)
+2.Javaweb框架学习(Spring)
 -------------------------
 Spring已经当今主流成为Javaweb开发框架，是任何一个Java程序员都必须掌握的内容。因此，在掌握了Java基础知识后，接下来应转入Spring的学习。
 
@@ -74,6 +74,7 @@ Spring只是Javaweb编程的基础设施，想真正参与企业级项目开发�
 
 4.参考
 -------------------------
+**Links:**
 : [Java高效学习路线][link4.1]
 : [学习Spring之前先学习什么][link4.2]
 : [Java没必要学习的知识][link4.3]
