@@ -64,11 +64,25 @@ Spring是Java学习中最难的部分。但是，一旦跨过这个门槛，从�
 Spring只是Javaweb编程的基础设施，想真正参与企业级项目开发中，亦或是对Java原理机制还想了解，还有些东西绕不过，包括:
 : [MySql][mysql]
 : [Mybatis][mybatis]
-: Redis,Servlet
+: Redis
+: Servlet
 : JVM
 : Tomcat
+: Git
 : ...
 总之在成为真正从事创造性工作的程序员的过程中，学习从未停止！
+
+4.参考
+-------------------------
+: [Java高效学习路线][link4.1]
+: [学习Spring之前先学习什么][link4.2]
+: [Java没必要学习的知识][link4.3]
+: [W3school][link4.4]
+
+[link4.1]:https://zhuanlan.zhihu.com/p/84032726
+[link4.2]:https://zhuanlan.zhihu.com/p/64001753
+[link4.3]:https://www.zhihu.com/question/305924723/answer/557800752
+[link4.4]:https://www.w3school.com.cn/
 
 [mysql]:https://www.mysql.com/
 [mybatis]:https://blog.mybatis.org/
