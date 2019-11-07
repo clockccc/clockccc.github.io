@@ -7,13 +7,17 @@ layout: home-page
 <ol class="post-card-box clearfix">
 
     <h2>书签:</h2>
-    <ul>
-    {% for item in (0..site.tags.size) %}{% unless forloop.last %}
-      {% capture this_word %}{{ tag_words[item] | strip_newlines }}{% endcapture %}
-      <li ><a href="{{site.baseurl}}/tags#{{ this_word | cgi_escape }}" class="tag">{{ this_word }} <span>({{ site.tags[this_word].size }})</span></a></li>
-    {% endunless %}{% endfor %}
-    </ul>
 
+    <div>
+      <ul class="clearfix">
+      {% for item in (0..site.tags.size) %}{% unless forloop.last %}
+        {% capture this_word %}{{ tag_words[item] | strip_newlines }}{% endcapture %}
+        <li ><a href="{{site.baseurl}}/tags#{{ this_word | cgi_escape }}" class="tag">{{ this_word }} <span>({{ site.tags[this_word].size }})</span></a></li>
+      {% endunless %}{% endfor %}
+      </ul>
+
+
+<div class="clearfix">
   <h2>Blogs:</h2>
   {% for post in paginator.posts %}
   <li>
@@ -33,4 +37,5 @@ layout: home-page
     </div>
   </li>
   {% endfor %}
+  </div>
 </ol>
