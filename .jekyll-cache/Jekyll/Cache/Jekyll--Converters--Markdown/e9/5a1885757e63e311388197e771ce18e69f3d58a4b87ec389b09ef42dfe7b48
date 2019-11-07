@@ -1,0 +1,205 @@
+I")N<h1 id="jdbc-java--database-connectivity">JDBC (Java  DataBase Connectivity)</h1>
+
+<h2 id="jdbc的编程步骤">JDBC的编程步骤</h2>
+
+<ol>
+  <li>加载数据库驱动类</li>
+  <li>Java 连接数据库</li>
+  <li>执行SQL语句</li>
+  <li>获得结果</li>
+  <li>处理结果（封装成Java对象）</li>
+  <li>关闭数据库连接</li>
+</ol>
+
+<h3 id="一-下载数据库驱动">一. 下载数据库驱动</h3>
+
+<p>Java 连接MySQL5.5数据库 （网址： https://dev.mysql.com/downloads/connector/j/ ）</p>
+
+<p>mysql-connector-java-5.5-bin.jar</p>
+
+<p>Java对数据库的操作的源代码，dao包（DAO: Data Access Object 数据访问对象）</p>
+
+<h3 id="二jdbc编程步骤"><strong>二、JDBC编程步骤</strong></h3>
+
+<p><strong>1.加载驱动类</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">()|</span><span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">().</span><span class="na">new</span> <span class="nc">Instance</span><span class="o">()|</span><span class="k">new</span> <span class="nc">DriverName</span><span class="o">()</span>
+  <span class="err">实例化自动向</span><span class="n">DriverManager</span><span class="err">注册</span>
+</code></pre></div></div>
+
+<p><strong>2. Connect to the Database</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nc">String</span> <span class="n">url</span> <span class="o">=</span><span class="s">"jdbc:mysql://localhost:3306/studentSystem"</span><span class="o">;</span> <span class="c1">//Mysql 数据库连接 的URL 格式</span>
+ <span class="nc">String</span> <span class="n">username</span> <span class="o">=</span><span class="s">"root"</span><span class="o">;</span>
+ <span class="nc">String</span> <span class="n">password</span> <span class="o">=</span> <span class="s">"root"</span>
+ <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span><span class="n">username</span><span class="o">,</span><span class="n">password</span><span class="o">);</span>
+ <span class="c1">//Oracle 数据库的URL 格式 ：   "jdbc:oracle:thin:@localhost:1521:oracle"</span>
+ <span class="c1">//SqlServer 数据库的URL 格式 ："jdbc:microsoft:sqlserver://localhost:1433:DatabaseName=mydb";</span>
+</code></pre></div></div>
+
+<p><strong>3. 执行SQL语句</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nc">Connection</span><span class="o">.</span><span class="na">createStatement</span><span class="o">()</span>
+  <span class="nc">Statement</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">()</span>
+  <span class="nc">Statement</span><span class="o">.</span><span class="na">executeUpdate</span><span class="o">()</span>
+</code></pre></div></div>
+
+<p><strong>4. 获得执行结果</strong></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">ResultSet</span> <span class="n">rs</span>
+ <span class="err">循环取得结果</span><span class="k">while</span><span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+</code></pre></div></div>
+
+<p><strong>5. 显示数据</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>将数据库的各种类型转换成为Java中的类型(getxxx)方法
+</code></pre></div></div>
+
+<p><strong>6. 关闭连接</strong></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Close the resultset | close the Statement | close the Connection
+</code></pre></div></div>
+
+<p><strong>JDBC核心接口与类</strong></p>
+
+<p><strong>Driver接口：</strong></p>
+
+<blockquote>
+  <p>说明：每一个数据库驱动程序如果要实现与JDBC API的对接，就需要实现Driver接口，也就是说每个驱动程序都应该提供一个实现Driver接口的类，DriverManager 会试着加载尽可能多的它可以找到的驱动程序，然后，对于任何给定连接请求，它会让每个驱动程序依次试着连接到目标 URL 。在加载某一 Driver 类时，它应该创建自己的实例并向 DriverManager 注册该实例。这意味着用户可以通过调用以下程序加载和注册一个驱动程序 。</p>
+</blockquote>
+
+<p><strong>DriverManager类作用：</strong></p>
+
+<blockquote>
+  <p>通常用来注册了数据库驱动程序后获得一个数据库连接对象。主要使用它的getConnection()方法。DriverManager 会试着从初始化时加载的那些驱动程序以及使用与当前 applet 或应用程序相同的类加载器显式加载的那些驱动程序中查找合适的驱动程序。</p>
+</blockquote>
+
+<p><strong>Connection接口</strong></p>
+
+<blockquote>
+  <p>一个Connection对象表示与特定的数据库的连接，主要用于执行SQL语句并得到执行的结果。默认情况下，Connection对象处于自动提交模式下，也就是说在执行每个SQL语句后都会自动提交.</p>
+</blockquote>
+
+<p><strong>Statement接口</strong></p>
+
+<blockquote>
+  <p>用于执行静态SQL语句并返回它所生成结果的对象。在默认情况下，同一时刻每个Statement对象只能打开一个ResultSet对象。</p>
+</blockquote>
+
+<p><strong>PreparedStatement接口</strong></p>
+
+<blockquote>
+  <p>表示预编译的 SQL 语句的对象， SQL 语句被预编译并且存储在 PreparedStatement 对象中。然后可以使用此对象高效地多次执行该语句。</p>
+
+  <p>注：用来设置 IN 参数值的 setter 方法（setShort、setString 等等）必须指定与输入参数的已定义 SQL 类型兼容的类型。例如，如果 IN 参数具有SQL 类型 int，那么应该使用 setInt 方法</p>
+</blockquote>
+
+<p><strong>ResultSet接口</strong></p>
+
+<blockquote>
+  <p>表示数据库结果集的数据表，通常通过执行查询数据库的语句生成 。</p>
+
+  <p>ResultSet 对象具有指向其当前数据行的指针。最初，指针被置于第一行之前。next 方法将指针移动到下一行；因为该方法在 ResultSet 对象中没有下一行时返回 false，所以可以在 while 循环中使用它来迭代结果集 。</p>
+
+  <p>默认的 ResultSet 对象不可更新，仅有一个向前移动的指针。因此，只能迭代它一次，并且只能按从第一行到最后一行的顺序进行。可以生成可滚动和/或可更新的 ResultSet 对象。以下代码片段演示了如何生成可滚动且不受其他更新影响的、可更新的结果集。</p>
+</blockquote>
+
+<p>示例：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">DBConnTest</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span>   <span class="o">{</span>
+        <span class="c1">//1. 加载驱动类</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"com.mysql.jdbc.Driver"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">ClassNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="c1">//2. 连接数据库</span>
+        <span class="nc">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">conn</span> <span class="o">=</span> <span class="nc">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="s">"jdbc:mysql://localhost:3306/tripdb"</span><span class="o">,</span><span class="s">"root"</span><span class="o">,</span><span class="s">"root"</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">conn</span><span class="o">);</span>
+
+
+        <span class="c1">// 3. 执行SQL语句</span>
+        <span class="nc">String</span> <span class="n">sql</span> <span class="o">=</span><span class="s">"select cust_id,cust_name,cust_pwd, cust_gender,cust_telno, cust_email,cust_contury,cust_province,cust_city,cust_score,cust_level"</span> <span class="o">+</span>
+                    <span class="s">" from customer where cust_id = 101 and cust_status =0"</span><span class="o">;</span>
+        <span class="nc">Statement</span> <span class="n">stmt</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>  <span class="c1">// Statement 接口：用于执行静态SQL语句</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">stmt</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="nc">ResultSet</span> <span class="n">rs</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="n">rs</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="n">sql</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+
+        <span class="c1">//4. 获得执行结果</span>
+        <span class="c1">//5. 处理结果</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">rs</span><span class="o">.</span><span class="na">next</span><span class="o">())</span> <span class="o">{</span>
+                <span class="kt">int</span> <span class="n">custId</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">1</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custName</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custPwd</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custGender</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+                <span class="kt">long</span> <span class="n">custTelno</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getLong</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custEmail</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">6</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custCountry</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">7</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custProvince</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">8</span><span class="o">);</span>
+                <span class="nc">String</span> <span class="n">custCity</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">9</span><span class="o">);</span>
+                <span class="kt">int</span> <span class="n">custScore</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+                <span class="kt">int</span> <span class="n">custLevel</span> <span class="o">=</span> <span class="n">rs</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">11</span><span class="o">);</span>
+
+                <span class="nc">Customer</span> <span class="n">customer</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Customer</span><span class="o">();</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustId</span><span class="o">(</span><span class="n">custId</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustName</span><span class="o">(</span><span class="n">custName</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustPwd</span><span class="o">(</span><span class="n">custPwd</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustGender</span><span class="o">(</span><span class="n">custGender</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustTelno</span><span class="o">(</span><span class="n">custTelno</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustEmail</span><span class="o">(</span><span class="n">custEmail</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustCountry</span><span class="o">(</span><span class="n">custCountry</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustProvince</span><span class="o">(</span><span class="n">custProvince</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustCity</span><span class="o">(</span><span class="n">custCity</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustScore</span><span class="o">(</span><span class="n">custScore</span><span class="o">);</span>
+                <span class="n">customer</span><span class="o">.</span><span class="na">setCustLevel</span><span class="o">(</span><span class="n">custLevel</span><span class="o">);</span>
+
+                <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">customer</span><span class="o">);</span>
+
+            <span class="o">}</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">){</span>
+
+        <span class="o">}</span><span class="k">finally</span> <span class="o">{</span>
+            <span class="c1">//6. 关闭 连接</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">rs</span><span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">rs</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">stmt</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">stmt</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+:ET

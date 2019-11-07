@@ -1,0 +1,206 @@
+---
+layout: post
+title:  JDBC编程步骤
+date:   2018-08-05 13:32:20 +0300
+description:  # Add post description (optional)
+img: post-jdbc.jpg
+tags: [Blog, Java]
+author: clockc # Add name author (optional)
+---
+# JDBC (Java  DataBase Connectivity)
+
+## JDBC的编程步骤
+
+1. 加载数据库驱动类
+2. Java 连接数据库
+3. 执行SQL语句
+4. 获得结果
+5. 处理结果（封装成Java对象）
+6. 关闭数据库连接
+
+### 一. 下载数据库驱动
+
+Java 连接MySQL5.5数据库 （网址： https://dev.mysql.com/downloads/connector/j/ ）
+
+mysql-connector-java-5.5-bin.jar
+
+Java对数据库的操作的源代码，dao包（DAO: Data Access Object 数据访问对象）
+
+### **二、JDBC编程步骤**
+
+**1.加载驱动类**     
+
+```java
+ Class.forName()|Class.forName().new Instance()|new DriverName()
+  实例化自动向DriverManager注册
+```
+
+**2. Connect to the Database**  
+
+```java
+ String url ="jdbc:mysql://localhost:3306/studentSystem"; //Mysql 数据库连接 的URL 格式
+ String username ="root";
+ String password = "root"
+ DriverManager.getConnection(url,username,password);
+ //Oracle 数据库的URL 格式 ：   "jdbc:oracle:thin:@localhost:1521:oracle"
+ //SqlServer 数据库的URL 格式 ："jdbc:microsoft:sqlserver://localhost:1433:DatabaseName=mydb";
+```
+
+   **3. 执行SQL语句**    
+
+```java
+  Connection.createStatement()
+  Statement.executeQuery()
+  Statement.executeUpdate()
+```
+
+**4. 获得执行结果**
+
+```java
+ResultSet rs
+ 循环取得结果while(rs.next())
+```
+
+**5. 显示数据**     
+
+```
+将数据库的各种类型转换成为Java中的类型(getxxx)方法
+```
+
+**6. 关闭连接**    
+
+```
+  Close the resultset | close the Statement | close the Connection
+```
+
+**JDBC核心接口与类**
+
+**Driver接口：**
+
+>  说明：每一个数据库驱动程序如果要实现与JDBC API的对接，就需要实现Driver接口，也就是说每个驱动程序都应该提供一个实现Driver接口的类，DriverManager 会试着加载尽可能多的它可以找到的驱动程序，然后，对于任何给定连接请求，它会让每个驱动程序依次试着连接到目标 URL 。在加载某一 Driver 类时，它应该创建自己的实例并向 DriverManager 注册该实例。这意味着用户可以通过调用以下程序加载和注册一个驱动程序 。
+
+**DriverManager类作用：**
+
+> 通常用来注册了数据库驱动程序后获得一个数据库连接对象。主要使用它的getConnection()方法。DriverManager 会试着从初始化时加载的那些驱动程序以及使用与当前 applet 或应用程序相同的类加载器显式加载的那些驱动程序中查找合适的驱动程序。
+
+**Connection接口**
+
+> 一个Connection对象表示与特定的数据库的连接，主要用于执行SQL语句并得到执行的结果。默认情况下，Connection对象处于自动提交模式下，也就是说在执行每个SQL语句后都会自动提交.
+
+**Statement接口**
+
+> 用于执行静态SQL语句并返回它所生成结果的对象。在默认情况下，同一时刻每个Statement对象只能打开一个ResultSet对象。
+
+**PreparedStatement接口**
+
+> 表示预编译的 SQL 语句的对象， SQL 语句被预编译并且存储在 PreparedStatement 对象中。然后可以使用此对象高效地多次执行该语句。
+>
+> 注：用来设置 IN 参数值的 setter 方法（setShort、setString 等等）必须指定与输入参数的已定义 SQL 类型兼容的类型。例如，如果 IN 参数具有SQL 类型 int，那么应该使用 setInt 方法
+
+**ResultSet接口**
+
+> 表示数据库结果集的数据表，通常通过执行查询数据库的语句生成 。
+>
+> ResultSet 对象具有指向其当前数据行的指针。最初，指针被置于第一行之前。next 方法将指针移动到下一行；因为该方法在 ResultSet 对象中没有下一行时返回 false，所以可以在 while 循环中使用它来迭代结果集 。
+>
+> 默认的 ResultSet 对象不可更新，仅有一个向前移动的指针。因此，只能迭代它一次，并且只能按从第一行到最后一行的顺序进行。可以生成可滚动和/或可更新的 ResultSet 对象。以下代码片段演示了如何生成可滚动且不受其他更新影响的、可更新的结果集。
+
+示例：
+
+```java
+public class DBConnTest {
+    public static void main(String[] args)   {
+        //1. 加载驱动类
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //2. 连接数据库
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tripdb","root","root");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println(conn);
+
+
+        // 3. 执行SQL语句
+        String sql ="select cust_id,cust_name,cust_pwd, cust_gender,cust_telno, cust_email,cust_contury,cust_province,cust_city,cust_score,cust_level" +
+                    " from customer where cust_id = 101 and cust_status =0";
+        Statement stmt = null;  // Statement 接口：用于执行静态SQL语句
+        try {
+            stmt = conn.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        ResultSet rs = null;
+        try {
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //4. 获得执行结果
+        //5. 处理结果
+        try {
+            while (rs.next()) {
+                int custId = rs.getInt(1);
+                String custName = rs.getString(2);
+                String custPwd = rs.getString(3);
+                String custGender = rs.getString(4);
+                long custTelno = rs.getLong(5);
+                String custEmail = rs.getString(6);
+                String custCountry = rs.getString(7);
+                String custProvince = rs.getString(8);
+                String custCity = rs.getString(9);
+                int custScore = rs.getInt(10);
+                int custLevel = rs.getInt(11);
+
+                Customer customer = new Customer();
+                customer.setCustId(custId);
+                customer.setCustName(custName);
+                customer.setCustPwd(custPwd);
+                customer.setCustGender(custGender);
+                customer.setCustTelno(custTelno);
+                customer.setCustEmail(custEmail);
+                customer.setCustCountry(custCountry);
+                customer.setCustProvince(custProvince);
+                customer.setCustCity(custCity);
+                customer.setCustScore(custScore);
+                customer.setCustLevel(custLevel);
+
+                System.out.println(customer);
+
+            }
+        }catch (SQLException e){
+
+        }finally {
+            //6. 关闭 连接
+            if(rs!= null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(conn != null) {
+                try {
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+   }
+}
+```
